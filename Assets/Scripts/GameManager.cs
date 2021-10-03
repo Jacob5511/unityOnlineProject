@@ -10,35 +10,48 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text scoreText, countEnemyText, livesText, countWaveText;
     public static int score, lives = 3, countEnemy, countWave = 0, timer, scoreUpgradeReloadTime, scoreUpgradeRotationSpeed, scoreUpgradeLives;
     public static bool isGame = true, isAnim;
+    [SerializeField] GameObject stopGame;
     void Start()
     {
-        InvokeRepeating("Timer",0,1);
-        string json = File.ReadAllText(Path.Combine(Application.dataPath, "score.txt"));
-        ScoreObject myObject = JsonUtility.FromJson<ScoreObject>(json);
-        score = myObject.score;
+        // InvokeRepeating("Timer",0,1);
+        // string json = File.ReadAllText(Path.Combine(Application.dataPath, "score.txt"));
+        // ScoreObject myObject = JsonUtility.FromJson<ScoreObject>(json);
+        // score = myObject.score;
         countWave = 0;
     }
     void Update()
     {
-        if(timer == 5)
-        {
-            ScoreObject myObject = new ScoreObject();
-            myObject.score = score;
-            string json = JsonUtility.ToJson(myObject); // преобразование обьекта в json строку
-            File.WriteAllText(Path.Combine(Application.dataPath, "score.txt"), json);
-            timer = 0;
-            print(Application.dataPath);
-        }
+        // if(timer == 5)
+        // {
+        //     ScoreObject myObject = new ScoreObject();
+        //     myObject.score = score;
+        //     string json = JsonUtility.ToJson(myObject); // преобразование обьекта в json строку
+        //     File.WriteAllText(Path.Combine(Application.dataPath, "score.txt"), json);
+        //     timer = 0;
+        //     print(Application.dataPath);
+        // }
         countWaveText.text = countWave.ToString();
         livesText.text = lives.ToString();
         countEnemyText.text = countEnemy.ToString();
         scoreText.text = score.ToString();
     }
-    void Timer()
+    public void StopGameButton()
     {
-        timer++;
-        // print(timer);
+        Time.timeScale = 0;
+        stopGame.SetActive(true);
+        isGame=false;
     }
+    public void Play()
+    {
+        Time.timeScale = 1;
+        stopGame.SetActive(false);
+        isGame=true;
+    }
+    // void Timer()
+    // {
+    //     timer++;
+    //     // print(timer);
+    // }
     public void Restart()
     {
         Time.timeScale = 1;

@@ -63,11 +63,15 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
         if(enemyLives == 0)
         {
-            GameManager.countEnemy++;
-            GameManager.score += scoreStatic;
-            Destroy(gameObject);
-            Instantiate(boomParticleStatic, transform.position, Quaternion.identity);
+            Destroy();
         }
+    }
+    void Destroy()
+    {
+        GameManager.countEnemy++;
+        GameManager.score += scoreStatic;
+        Destroy(gameObject);
+        Instantiate(boomParticleStatic, transform.position, Quaternion.identity);
     }
     IEnumerator GunLives()
     {
@@ -94,8 +98,11 @@ public class Enemy : MonoBehaviour
         }
         if(collision.tag.Equals("playerCollider"))
         {
-            print("sosiska");
             StartCoroutine("GunLives");
         }
+    }
+    private void OnMouseDown()
+    {
+        enemyLives--;
     }
 }

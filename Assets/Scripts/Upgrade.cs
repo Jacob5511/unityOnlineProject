@@ -1,80 +1,56 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Upgrade : MonoBehaviour
 {
-    [SerializeField] GameObject rotationPanel, livesPanel, reloadPanel;
-    int count = 1;
-    void Start()
+    [SerializeField] GameObject[] panel;
+    [SerializeField] Image[] upgradeOne,upgradeTwo,upgradeThree;
+    [SerializeField] Sprite fullUpgrade;
+    static int index = 0,upgradeScoreOne = -1,upgradeScoreTwo = -1,upgradeScoreThree = -1;
+    public void Plus()
     {
-        rotationPanel.SetActive(true);
-    }
-    private void Update()
-    {
-        
+        if(index == 0 && upgradeScoreOne < 4)
+        {
+            upgradeScoreOne++;
+            upgradeOne[upgradeScoreOne].sprite = fullUpgrade;
+        }
+        if(index == 1 && upgradeScoreTwo < 4)
+        {
+            upgradeScoreTwo++;
+            upgradeTwo[upgradeScoreTwo].sprite = fullUpgrade;
+        }
+        if(index == 2 && upgradeScoreThree < 4)
+        {
+            upgradeScoreThree++;
+            upgradeThree[upgradeScoreThree].sprite = fullUpgrade;
+        }
     }
     public void RightButtonChange()
     {
-        if(count == 3)
+        if(index < panel.Length-1)
         {
-            count = 1;
+            panel[index].SetActive(false);
+            panel[index+=1].SetActive(true);
         }
         else
         {
-           count++; 
+            panel[index].SetActive(false);
+            panel[index = 0].SetActive(true);
         }
-        SetActive();
     }
     public void LeftButtonChange()
     {
-        if(count == 1)
+        if(index <= panel.Length-1 && index > 0)
         {
-            count = 3;
+            panel[index].SetActive(false);
+            panel[index-=1].SetActive(true);
         }
         else
         {
-            count--;
+            panel[index].SetActive(false);
+            panel[index = panel.Length-1].SetActive(true);
         }
-        SetActive();
-    }
-    void SetActive()
-    {
-        if(count == 1)
-        {
-            rotationPanel.SetActive(true);
-        }
-        else
-        {
-            rotationPanel.SetActive(false);
-        }
-        if(count == 2)
-        {
-            livesPanel.SetActive(true);
-        }
-        else
-        {
-            livesPanel.SetActive(false);
-        }
-        if (count == 3)
-        {
-            reloadPanel.SetActive(true);
-        }
-        else
-        {
-            reloadPanel.SetActive(false);
-        }
-    }
-    public void GetUp()
-    {
-
-    }
-    public void GetMiddle()
-    {
-        
-    }
-    public void GetDown()
-    {
-        
     }
 }
